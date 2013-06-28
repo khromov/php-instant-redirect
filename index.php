@@ -21,6 +21,9 @@
 	/** The new hostname to redirect to **/
 	$new_host = 'static.idg.se';
 
+	/** Protocol for new site. http or https are valid **/
+	$new_protocol = 'http'; 
+
 	/** 
 	 * Should we send the path to the new domain?
 	 *
@@ -32,6 +35,8 @@
 	 **/
 	$new_url_send_path = true;
 
+
+	/** Script starts here. **/
 	if($error_code==503)
 	{
 		header('HTTP/1.1 503 Service Temporarily Unavailable');
@@ -44,7 +49,11 @@
 	}
 	//302 is the default status code for header Location:. No else is needed to support 302
 
-	$url_raw = "http" . (($_SERVER['SERVER_PORT']==443) ? "s://" : "://") . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	//($_SERVER['SERVER_PORT']==443) ? "s://" : "://") . 
+	$url_raw = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$url_substituted = str_replace($_SERVER['HTTP_HOST'], $new_host, $url_raw);
 
-	header("Location: {$url_substituted}");
+	if($new_url_send_path)
+		header("Location: {$new_protocol}://{$url_substituted}");
+	else
+		header("Location: {$new_protocol}://{$new_host}");

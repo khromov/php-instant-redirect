@@ -19,7 +19,7 @@
 	$error_code = 302;
 
 	/** The new hostname to redirect to **/
-	$new_host = 'static.idg.se';
+	$new_host = 'newsite.com';
 
 	/** Protocol for new site. http or https are valid **/
 	$new_protocol = 'http'; 
